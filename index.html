@@ -258,7 +258,34 @@ function calculate() {
   result += nameB + "\n";
   result += "總花費：" + totalPriceB + "\n";
   result += "總回血：" + totalHealB + "\n\n";
+  
+  result += "===== 回血量追平比較 =====\n";
 
+  if (healA > healB) {
+
+    const needBCount = totalHealA / healB;
+    const needBPrice = needBCount * priceB;
+
+    result += nameB + " 要追上 " + nameA + " 的總回血量\n";
+    result += nameB + " 需要瓶數：" + needBCount + "\n";
+    result += nameB + " 需要花費：" + needBPrice + "\n";
+
+  }
+  else if (healB > healA) {
+
+    const needACount = totalHealB / healA;
+    const needAPrice = needACount * priceA;
+
+    result += nameA + " 要追上 " + nameB + " 的總回血量\n";
+    result += nameA + " 需要瓶數：" + needACount + "\n";
+    result += nameA + " 需要花費：" + needAPrice + "\n";
+
+  }
+  else {
+
+    result += "兩者回血量相同\n";
+
+  }
   if (pricePerHealA < pricePerHealB) {
     result += "結論：" + nameA + " 比較划算。";
   }
