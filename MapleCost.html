@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>楓之谷藥水成本比較</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+
+      background-image: url("background.jpg");
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+
+      color: white;
+      margin: 0;
+      padding: 30px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background-color: rgba(0,0,0,0.5);
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    }
+
+    h1 {
+      text-align: center;
+      color: #ffd700;
+    }
+
+    h2 {
+      color: #87cefa;
+      border-bottom: 1px solid #87cefa;
+      padding-bottom: 5px;
+    }
+
+    .section {
+      margin-bottom: 25px;
+    }
+
+    input {
+      width: 150px;
+      padding: 5px;
+      margin: 5px 0;
+      border-radius: 5px;
+      border: none;
+    }
+
+    button {
+      background-color: #ffd700;
+      color: black;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+
+    button:hover {
+      background-color: #ffcc00;
+    }
+
+    #result {
+      background-color: rgba(255,255,255,0.1);
+      padding: 20px;
+      border-radius: 10px;
+      white-space: pre-wrap;
+      margin-top: 20px;
+      font-size: 15px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <h1>楓之谷藥水成本比較</h1>
+
+  <div class="grid">
+
+    <div class="section">
+      <h2>藥水A</h2>
+
+      名稱：<br>
+      <input id="nameA" value="4000回復水"><br>
+
+      回復量：<br>
+      <input id="healA" type="number" value="4000"><br>
+
+      售價：<br>
+      <input id="priceA" type="number" value="4500"><br>
+
+      香精價格：<br>
+      <input id="essenceA" type="number" value="0"><br>
+
+      空瓶單價：<br>
+      <input id="bottleA" type="number" value="0"><br>
+
+      一次製作幾瓶：<br>
+      <input id="craftA" type="number" value="0"><br>
+
+      入場費：<br>
+      <input id="entryFeeA" type="number" value="0"><br>
+
+      幾瓶付一次入場費：<br>
+      <input id="entryCountA" type="number" value="0"><br>
+    </div>
+
+    <div class="section">
+      <h2>藥水B</h2>
+
+      名稱：<br>
+      <input id="nameB" value="鹿奶回復水"><br>
+
+      回復量：<br>
+      <input id="healB" type="number" value="5000"><br>
+
+      售價：<br>
+      <input id="priceB" type="number" value="5600"><br>
+
+      香精價格：<br>
+      <input id="essenceB" type="number" value="0"><br>
+
+      空瓶單價：<br>
+      <input id="bottleB" type="number" value="0"><br>
+
+      一次製作幾瓶：<br>
+      <input id="craftB" type="number" value="0"><br>
+
+      入場費：<br>
+      <input id="entryFeeB" type="number" value="0"><br>
+
+      幾瓶付一次入場費：<br>
+      <input id="entryCountB" type="number" value="0"><br>
+    </div>
+
+  </div>
+
+  <div class="section">
+    <h2>比較數量</h2>
+
+    數量：<br>
+    <input id="quantity" type="number" value="1000"><br>
+
+    <button onclick="calculate()">開始計算</button>
+  </div>
+
+  <div id="result">結果會顯示在這裡...</div>
+
+</div>
+
+<script>
+
+function getNumber(id) {
+  return Number(document.getElementById(id).value);
+}
+
+function getText(id) {
+  return document.getElementById(id).value;
+}
+
+function getCraftCost(essence, bottle, craftCount, entryFee, entryCount) {
+
+  let materialCost = 0;
+  let entryCost = 0;
+
+  if (craftCount > 0) {
+    materialCost =
+      (essence + bottle * craftCount) / craftCount;
+  }
+
+  if (entryCount > 0) {
+    entryCost =
+      entryFee / entryCount;
+  }
+
+  return {
+    materialCost: materialCost,
+    entryCost: entryCost,
+    totalCost: materialCost + entryCost
+  };
+}
+
+function calculate() {
+
+  const nameA = getText("nameA");
+  const healA = getNumber("healA");
+  const priceA = getNumber("priceA");
+
+  const essenceA = getNumber("essenceA");
+  const bottleA = getNumber("bottleA");
+  const craftA = getNumber("craftA");
+  const entryFeeA = getNumber("entryFeeA");
+  const entryCountA = getNumber("entryCountA");
+
+  const nameB = getText("nameB");
+  const healB = getNumber("healB");
+  const priceB = getNumber("priceB");
+
+  const essenceB = getNumber("essenceB");
+  const bottleB = getNumber("bottleB");
+  const craftB = getNumber("craftB");
+  const entryFeeB = getNumber("entryFeeB");
+  const entryCountB = getNumber("entryCountB");
+
+  const quantity = getNumber("quantity");
+
+  const costA =
+    getCraftCost(essenceA, bottleA, craftA, entryFeeA, entryCountA);
+
+  const costB =
+    getCraftCost(essenceB, bottleB, craftB, entryFeeB, entryCountB);
+
+  const totalHealA = healA * quantity;
+  const totalHealB = healB * quantity;
+
+  const totalPriceA = priceA * quantity;
+  const totalPriceB = priceB * quantity;
+
+  const pricePerHealA = priceA / healA;
+  const pricePerHealB = priceB / healB;
+
+  let result = "";
+
+  result += "===== 自製成本 =====\n\n";
+
+  result += nameA + "\n";
+  result += "總單瓶成本：" + costA.totalCost.toFixed(2) + "\n";
+  result += "單瓶利潤：" + (priceA - costA.totalCost).toFixed(2) + "\n\n";
+
+  result += nameB + "\n";
+  result += "總單瓶成本：" + costB.totalCost.toFixed(2) + "\n";
+  result += "單瓶利潤：" + (priceB - costB.totalCost).toFixed(2) + "\n\n";
+
+  result += "===== 每1回血價格 =====\n\n";
+
+  result += nameA + "：" + pricePerHealA.toFixed(4) + "\n";
+  result += nameB + "：" + pricePerHealB.toFixed(4) + "\n\n";
+
+  result += "===== " + quantity + " 瓶比較 =====\n\n";
+
+  result += nameA + "\n";
+  result += "總花費：" + totalPriceA + "\n";
+  result += "總回血：" + totalHealA + "\n\n";
+
+  result += nameB + "\n";
+  result += "總花費：" + totalPriceB + "\n";
+  result += "總回血：" + totalHealB + "\n\n";
+
+  if (pricePerHealA < pricePerHealB) {
+    result += "結論：" + nameA + " 比較划算。";
+  }
+  else if (pricePerHealA > pricePerHealB) {
+    result += "結論：" + nameB + " 比較划算。";
+  }
+  else {
+    result += "結論：兩者CP值相同。";
+  }
+
+  document.getElementById("result").textContent = result;
+}
+
+</script>
+
+</body>
+</html>
